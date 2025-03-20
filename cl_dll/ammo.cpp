@@ -279,6 +279,7 @@ int CHudAmmo::Init(void)
 	m_pHud_DrawHistory_Time = CVAR_CREATE( "hud_drawhistory_time", HISTORY_DRAW_TIME, 0 );
 	m_pHud_FastSwitch = CVAR_CREATE( "hud_fastswitch", "0", FCVAR_ARCHIVE );		// controls whether or not weapons can be selected in one keypress
 	// CVAR_CREATE( "cl_observercrosshair", "1", 0 );
+	hud_weapon = CVAR_CREATE("hud_weapon", 0, FCVAR_ARCHIVE);
 	m_pClCrosshairColor = (convar_t*)CVAR_CREATE( "cl_crosshair_color", "50 250 50", FCVAR_ARCHIVE );
 	m_pClCrosshairTranslucent = (convar_t*)CVAR_CREATE( "cl_crosshair_translucent", "1", FCVAR_ARCHIVE );
 	m_pClCrosshairSize = (convar_t*)CVAR_CREATE( "cl_crosshair_size", "auto", FCVAR_ARCHIVE );
@@ -1026,7 +1027,7 @@ int CHudAmmo::Draw(float flTime)
 		HideCrosshair(); // hide static
 
 		// draw a dynamic crosshair
-		DrawCrosshair();
+		//DrawCrosshair();
 	}
 	else
 	{
@@ -1072,6 +1073,23 @@ int CHudAmmo::Draw(float flTime)
 	// Does this weapon have a clip?
 	y = ScreenHeight - gHUD.m_iFontHeight - gHUD.m_iFontHeight/2;
 
+	if (hud_weapon->value != 0.0f)
+	{
+		int r, g, b;
+		if (gWR.HasAmmo(m_pWeapon))
+		{
+			DrawUtils::UnpackRGB(r, g, b, gHUD.m_iDefaultHUDColor);
+			DrawUtils::ScaleColors(r, g, b, 192);
+		}
+		else
+		{
+			DrawUtils::UnpackRGB(r, g, b, RGB_REDISH);
+			DrawUtils::ScaleColors(r, g, b, 128);
+		}
+		SPR_Set(m_pWeapon->hInactive, r, g, b);
+		int offset = (m_pWeapon->rcInactive.bottom - m_pWeapon->rcInactive.top) / 8;
+		SPR_DrawAdditive(0, ScreenWidth / 1.73, y - 2 * offset, &m_pWeapon->rcInactive);
+	}
 	// Does weapon have any ammo at all?
 	if (m_pWeapon->iAmmoType > 0)
 	{
@@ -1087,7 +1105,6 @@ int CHudAmmo::Draw(float flTime)
 			int iBarWidth =  AmmoWidth/10;
 
 			x += AmmoWidth/2;
-
 			DrawUtils::UnpackRGB( r, g, b, gHUD.m_iDefaultHUDColor );
 
 			// draw the | bar
@@ -1098,8 +1115,7 @@ int CHudAmmo::Draw(float flTime)
 			// GL Seems to need this
 			DrawUtils::ScaleColors(r, g, b, a );
 			x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, gWR.CountAmmo(pw->iAmmoType), r, g, b);
-
-
+			// x =
 		}
 		else
 		{

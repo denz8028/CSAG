@@ -42,7 +42,8 @@
 *.idb
 *.ilk
 *.autosave
-
+compile_commands.json
+*.kateproject*
 android/pak/
 android/assets/extras.pak
 *-build
@@ -51,7 +52,7 @@ android/assets/extras.pak
 build/
 
 .vscode/
-
+.cache/
 .gradle/
 .externalNativeBuild
 .cxx/

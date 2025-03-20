@@ -27,6 +27,8 @@
 #include <assert.h>
 #include "parsemsg.h"
 
+#include "qfont.h"
+
 #include "demo.h"
 #include "demo_api.h"
 #include "vgui_parser.h"
@@ -312,7 +314,7 @@ void CHud :: Init( void )
 
 	m_pShowHealth = CVAR_CREATE( "scoreboard_showhealth", "1", FCVAR_ARCHIVE );
 	m_pShowMoney = CVAR_CREATE( "scoreboard_showmoney", "1", FCVAR_ARCHIVE );
-
+	CVAR_CREATE( "hud_weapon", "0", FCVAR_ARCHIVE );
 	// The cvar was taken from the OpenAG client
 	m_pCvarColor = CVAR_CREATE( "hud_color", "255 160 0", FCVAR_ARCHIVE );
 
@@ -368,6 +370,7 @@ void CHud :: Init( void )
 	m_StatusIcons.Init();
 	m_Radar.Init();
 	m_Scenario.Init();
+	m_Crosshair.Init();
 
 	// chat, death notice, status bars and other
 	m_SayText.Init();
@@ -523,7 +526,7 @@ void CHud :: VidInit( void )
 
 	for( HUDLIST *pList = m_pHudList; pList; pList = pList->pNext )
 		pList->p->VidInit();
-
+	m_Crosshair.VidInit();
 #if 0
 	if( firstinit && gEngfuncs.CheckParm( "-firsttime", NULL ) )
 	{

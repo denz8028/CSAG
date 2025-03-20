@@ -30,7 +30,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "wrect.h"
+#include "include/wrect.h"
 #include "cl_dll.h"
 #include "ammo.h"
 
@@ -123,6 +123,8 @@ public:
 
 };
 
+#include "hud/crosshair.h"
+
 struct HUDLIST {
 	CHudBase	*p;
 	HUDLIST		*pNext;
@@ -206,7 +208,7 @@ private:
 	WEAPON *m_pWeapon;
 	int	m_HUD_bucket0;
 	int m_HUD_selection;
-
+	cvar_t* hud_weapon;
 	int m_iAlpha;
 	int m_R, m_G, m_B;
 	int m_cvarR, m_cvarG, m_cvarB;
@@ -1043,6 +1045,7 @@ public:
 	CHudAmmoSecondary m_AmmoSecondary;
 	CHudTextMessage m_TextMessage;
 	CHudStatusIcons m_StatusIcons;
+	CHudCrosshair	m_Crosshair;
 	CHudScoreboard  m_Scoreboard;
 	CHudMOTD        m_MOTD;
 	CHudMoney       m_Money;
