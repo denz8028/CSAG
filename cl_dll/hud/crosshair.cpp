@@ -16,7 +16,7 @@ int CHudCrosshair::Init()
 {
 	m_iFlags = HUD_ACTIVE;
 
-	cl_cross = CVAR_CREATE("cl_cross", "0", FCVAR_ARCHIVE);
+	cl_cross = CVAR_CREATE("cl_cross", "1", FCVAR_ARCHIVE);
 	cl_cross_color = CVAR_CREATE("cl_cross_color", "0 255 0", FCVAR_ARCHIVE);
 	cl_cross_alpha = CVAR_CREATE("cl_cross_alpha", "200", FCVAR_ARCHIVE);
 	cl_cross_trick = CVAR_CREATE("cl_cross_trick", "1", FCVAR_ARCHIVE);
