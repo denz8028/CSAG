@@ -43,12 +43,12 @@ int CHudScenario::Init( )
 	m_iFlags = 0;
 	gHUD.AddHudElem( this );
 
-	return 0;
+	return 1;
 }
 
 int CHudScenario::VidInit( )
 {
-	return 0;
+	return 1;
 }
 
 void CHudScenario::Reset()

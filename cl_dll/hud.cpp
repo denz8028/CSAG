@@ -28,7 +28,6 @@
 #include "parsemsg.h"
 
 #include "qfont.h"
-
 #include "demo.h"
 #include "demo_api.h"
 #include "vgui_parser.h"

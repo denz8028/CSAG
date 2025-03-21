@@ -19,7 +19,9 @@ list(REMOVE_ITEM CS_INPUT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/input/input_sdl.cpp")
 list(REMOVE_ITEM CS_CLIENT_SRC "${CMAKE_CURRENT_SOURCE_DIR}/inputw32.cpp")
 list(REMOVE_ITEM CS_WPN_SRC "${CMAKE_CURRENT_SOURCE_DIR}/cs_wpn/cs_baseentity.cpp")
 list(APPEND CS_CLIENT_SRC ../common/interface.cpp)
-# list(APPEND CS_CLIENT_SRC hud/crosshair.cpp)
+list(APPEND CS_CLIENT_SRC hud/crosshair.cpp)
+list(APPEND CS_CLIENT_SRC ttf_rnd.cpp)
+
 list(APPEND CS_CLIENT_SRC ${CS_EV_SRC})
 list(APPEND CS_CLIENT_SRC ${CS_WPN_SRC})
 list(APPEND CS_CLIENT_SRC ${CS_WPNSH_SRC})
@@ -29,7 +31,8 @@ list(APPEND CS_CLIENT_SRC ${CS_PM_SRC})
 list(APPEND CS_CLIENT_SRC ${CS_INPUT_SRC})
 list(APPEND CS_CLIENT_SRC ${CS_GAMSH_SRC})
 list(APPEND CS_CLIENT_SRC ${MINIUTL_SRC})
-
+find_package(PkgConfig)
+pkg_check_modules(FT2 REQUIRED freetype2)
 include_directories(
 	include
 	include/hud
@@ -56,8 +59,9 @@ if(NOT MSVC)
 else()
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
 endif()
-
 add_library(${CLIENT_LIB} MODULE ${CS_CLIENT_SRC})
+include_directories(${FT2_INCLUDE_DIRS})
+target_link_libraries(${CLIENT_LIB} ${FT2_LIBRARIES})
 
 set_target_postfix(${CLIENT_LIB})
 

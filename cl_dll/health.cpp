@@ -29,7 +29,7 @@
 #include "eventscripts.h"
 
 #include "draw_util.h"
-
+#include "ttf_rnd.h"
 #include "ev_hldm.h"
 #include "com_weapons.h"
 
@@ -38,6 +38,7 @@
 #define EPSILON 0.4f
 
 int giDmgHeight, giDmgWidth;
+TTFFont hudFont;
 
 int giDmgFlags[NUM_DMG_TYPES] = 
 {
@@ -264,7 +265,8 @@ void CHudHealth::DrawHealthBar( float flTime )
 	int r, g, b;
 	int a = 0, x, y;
 	int HealthWidth;
-
+	hudFont.Load("fonts/dejavusans.ttf", 24);
+	hudFont.CacheGlyphs();
 	GetPainColor( r, g, b, a );
 	DrawUtils::ScaleColors(r, g, b, a );
 
@@ -283,6 +285,8 @@ void CHudHealth::DrawHealthBar( float flTime )
 		x = CrossWidth + HealthWidth / 2;
 
 		x = DrawUtils::DrawHudNumber(x, y, DHN_3DIGITS | DHN_DRAWZERO, m_iHealth, r, g, b);
+		hudFont.DrawTTFNumber(x, y, m_iHealth, hudFont);
+
 	}
 }
 
